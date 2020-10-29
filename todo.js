@@ -1,8 +1,19 @@
 function addItem() {
-  const inputElement = document.getElementById("task");
-  const task = inputElement.value;
-  console.log(task);
-  inputElement.value = "";
+  const taskToAdd = document.getElementById("task");
+  console.log(taskToAdd.value);
+  saveToStorage(taskToAdd);
+  document.getElementById("taskItems").innerHTML =
+    "<li>" + taskToAdd.value + "</li>";
+  taskToAdd.value = "";
+}
+
+function saveToStorage(taskToAdd) {
+  if (localStorage.getItem("allTasks") === null) {
+    window.localStorage.setItem("allTasks", JSON.stringify(taskToAdd.value));
+  } else {
+    newTask = JSON.parse(window.localStorage.getItem("allTasks"));
+    window.localStorage.setItem("allTasks", JSON.stringify(newTask));
+  }
 }
 
 window.addEventListener(
@@ -14,4 +25,7 @@ window.addEventListener(
   },
   false
 );
-document.querySelector(".enterButton").addEventListener("click", addItem);
+
+const enterButton = document
+  .getElementById("enterButton")
+  .addEventListener("click", addItem);
