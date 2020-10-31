@@ -170,11 +170,11 @@ body {
 
 #taskLine {
   width: 100%;
+  margin-top: 1rem;
   display: flex;
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
-  border-bottom: 1px solid blue;
 }
 
 #taskComplete {
@@ -186,6 +186,10 @@ body {
   width: 70%;
   font-size: 2rem;
   margin-left: 3rem;
+}
+
+.strikethrough {
+  text-decoration: line-through;
 }
 
 #taskDelete {
