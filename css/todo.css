@@ -135,16 +135,17 @@ body {
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
+  border: 2px solid red;
 }
 
 #task {
-  width: 70%;
+  width: 65%;
   height: 100%;
   font-size: 2rem;
 }
 
 #enterButton {
-  width: 25%;
+  width: 30%;
   height: 100%;
   font-size: 2rem;
   outline: none;
@@ -195,4 +196,10 @@ body {
 #taskDelete {
   width: 7%;
   object-fit: contain;
+}
+
+@media only screen and (max-width: 768px) {
+  .taskContainer {
+    width: 95%;
+  }
 }
