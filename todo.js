@@ -69,6 +69,20 @@ function retrieveFromStorage() {
   }
 }
 
+function removeFromStorage(target) {
+  const taskToDeleteFromStorage = target.previousSibling.textContent;
+  allItemsInStorage = JSON.parse(window.localStorage.getItem("allTasks"));
+  for (i = 0; i < allItemsInStorage.length; i++) {
+    if (allItemsInStorage[i].text === taskToDeleteFromStorage) {
+      allItemsInStorage.splice(i, 1);
+      window.localStorage.setItem(
+        "allTasks",
+        JSON.stringify(allItemsInStorage)
+      );
+    }
+  }
+}
+
 window.addEventListener(
   "keypress",
   function (e) {
@@ -128,6 +142,7 @@ const deleteButton = document.getElementById("taskItems");
 deleteButton.addEventListener("click", function (e) {
   // runs when the red x picture is clicked
   if (e.target.id === "taskDelete") {
+    removeFromStorage(e.target);
     const taskToRemove = e.target.parentNode.parentNode;
     taskToRemove.remove();
   }
