@@ -22,7 +22,11 @@ function displayItemsList(isCompleted = false) {
   const newInputItem = document.createElement("input");
   newInputItem.setAttribute("id", "taskComplete");
   newInputItem.setAttribute("type", "checkbox");
-  newInputItem.setAttribute("checked", isCompleted);
+  if (isCompleted === true) {
+    newInputItem.setAttribute("checked", isCompleted);
+    newInputItem.setAttribute("class", "strikethrough");
+    console.log(newInputItem);
+  }
 
   const newTaskTextItem = document.createElement("p");
   newTaskTextItem.setAttribute("id", "taskText");
@@ -57,17 +61,10 @@ function retrieveFromStorage() {
     console.log("Nothing is in broswer storage");
   } else {
     // if things are in storage it retrieves the items and displays them on page
-    console.log(allItemsInStorage);
 
     for (i = 0; i < allItemsInStorage.length; i++) {
       allTaskItems.push(allItemsInStorage[i]);
-      console.log(allItemsInStorage[i].isChecked);
-
-      if (allItemsInStorage[i].isChecked === false) {
-        displayItemsList(false);
-      } else {
-        displayItemsList(true);
-      }
+      displayItemsList(allItemsInStorage[i].isChecked);
     }
   }
 }
