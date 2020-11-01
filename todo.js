@@ -24,12 +24,13 @@ function displayItemsList(isCompleted = false) {
   newInputItem.setAttribute("type", "checkbox");
   if (isCompleted === true) {
     newInputItem.setAttribute("checked", isCompleted);
-    newInputItem.setAttribute("class", "strikethrough");
-    console.log(newInputItem);
   }
 
   const newTaskTextItem = document.createElement("p");
   newTaskTextItem.setAttribute("id", "taskText");
+  if (isCompleted === true) {
+    newTaskTextItem.setAttribute("class", "strikethrough");
+  }
 
   const newImageItem = document.createElement("img");
   newImageItem.setAttribute("id", "taskDelete");
