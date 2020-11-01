@@ -9,7 +9,7 @@ function addItem() {
   taskToAdd.value = "";
 }
 
-function displayItemsList() {
+function displayItemsList(isCompleted = false) {
   const unorderedList = document.getElementById("taskItems");
   const arrayObject = allTaskItems[allTaskItems.length - 1];
   const arrayTask = arrayObject.text;
@@ -22,6 +22,7 @@ function displayItemsList() {
   const newInputItem = document.createElement("input");
   newInputItem.setAttribute("id", "taskComplete");
   newInputItem.setAttribute("type", "checkbox");
+  newInputItem.setAttribute("checked", isCompleted);
 
   const newTaskTextItem = document.createElement("p");
   newTaskTextItem.setAttribute("id", "taskText");
