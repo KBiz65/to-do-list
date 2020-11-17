@@ -2,10 +2,9 @@ allTaskItems = [];
 
 function addItem() {
   const taskToAdd = document.getElementById("task");
-  // console.log(taskToAdd.value);
   allTaskItems.push({ text: taskToAdd.value, isChecked: false });
   displayItemsList();
-  saveToStorage(allTaskItems);
+  localStorage.setItem("allTasks", JSON.stringify(allTaskItems));
   taskToAdd.value = "";
 }
 
@@ -47,101 +46,67 @@ function displayItemsList(isCompleted = false) {
   unorderedList.appendChild(newLineItem);
 }
 
-function saveToStorage(taskToAdd) {
-  console.log(taskToAdd);
-  console.log(allTaskItems.length);
-  window.localStorage.setItem("allTasks", JSON.stringify(taskToAdd));
-}
-
-function retrieveFromStorage() {
-  allItemsInStorage = JSON.parse(window.localStorage.getItem("allTasks"));
-  // console.log(allItemsInStorage);
-
-  if (allItemsInStorage === null) {
-    //if nothing is in storage, it does nothing except print to the console
-    console.log("Nothing is in broswer storage");
-  } else {
-    // if things are in storage it retrieves the items and displays them on page
-
-    for (i = 0; i < allItemsInStorage.length; i++) {
-      allTaskItems.push(allItemsInStorage[i]);
-      displayItemsList(allItemsInStorage[i].isChecked);
-    }
+ function retrieveFromStorage() {
+  allItemsInStorage = JSON.parse(localStorage.getItem("allTasks")) || [];
+   
+  for (i = 0; i < allItemsInStorage.length; i++) {
+    allTaskItems.push(allItemsInStorage[i]);
+    displayItemsList(allItemsInStorage[i].isChecked);
   }
 }
 
 function removeFromStorage(target) {
   const taskToDeleteFromStorage = target.previousSibling.textContent;
   allItemsInStorage = JSON.parse(window.localStorage.getItem("allTasks"));
+  
   for (i = 0; i < allItemsInStorage.length; i++) {
     if (allItemsInStorage[i].text === taskToDeleteFromStorage) {
       allItemsInStorage.splice(i, 1);
-      window.localStorage.setItem(
-        "allTasks",
-        JSON.stringify(allItemsInStorage)
-      );
+      localStorage.setItem("allTasks", JSON.stringify(allItemsInStorage));
     }
   }
 }
 
-window.addEventListener(
-  "keypress",
-  function (e) {
-    if (e.keyCode === 13) {
-      addItem();
-    }
-  },
-  false
+window.addEventListener("keypress", (e) => e.code === "Enter" ? addItem() : false
 );
 
-const enterButton = document
-  .getElementById("enterButton")
-  .addEventListener("click", addItem);
+const enterButton = document.getElementById("enterButton");
+enterButton.addEventListener("click", addItem);
 
 const checkbox = document.getElementById("taskItems");
 checkbox.addEventListener("click", function (e) {
   if (e.target.id === "taskComplete") {
     if (e.target.checked) {
-      // checkbox is checked
       const strikethrough = e.target.nextSibling;
       strikethrough.setAttribute("class", "strikethrough");
-      // change storage value isChecked to true
+      
       allItemsInStorage = JSON.parse(window.localStorage.getItem("allTasks"));
-      // iterate through storage items to find the correct task to change value to true
-      for (i = 0; i < allItemsInStorage.length; i++) {
-        if (allItemsInStorage[i].text === strikethrough.textContent) {
-          console.log(allItemsInStorage);
-          allItemsInStorage[i].isChecked = true;
-          window.localStorage.setItem(
-            "allTasks",
-            JSON.stringify(allItemsInStorage)
-          );
+      
+      allItemsInStorage.forEach(item => {
+        if (item.text === strikethrough.textContent) {
+          item.isChecked = true;
+          localStorage.setItem("allTasks", JSON.stringify(allItemsInStorage));
         }
-      }
-    } else {
-      // checkbox is not checked
+      });
+
+      } else {
       const strikethrough = e.target.nextSibling;
       strikethrough.removeAttribute("class");
 
       allItemsInStorage = JSON.parse(window.localStorage.getItem("allTasks"));
-      // iterate through storage items to find the correct task to change value to true
-      for (i = 0; i < allItemsInStorage.length; i++) {
-        if (allItemsInStorage[i].text === strikethrough.textContent) {
-          console.log(allItemsInStorage);
-          allItemsInStorage[i].isChecked = false;
-          window.localStorage.setItem(
-            "allTasks",
-            JSON.stringify(allItemsInStorage)
-          );
+
+      allItemsInStorage.forEach(item => {
+        if (item.text === strikethrough.textContent) {
+          item.isChecked = false;
+          localStorage.setItem("allTasks", JSON.stringify(allItemsInStorage));
         }
-      }
+      });
     }
-  }
+  };
 });
 
 const deleteButton = document.getElementById("taskItems");
 deleteButton.addEventListener("click", function (e) {
-  // runs when the red x picture is clicked
   if (e.target.id === "taskDelete") {
     removeFromStorage(e.target);
     const taskToRemove = e.target.parentNode.parentNode;
