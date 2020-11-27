@@ -9,30 +9,30 @@ function addItem() {
 }
 
 function displayItemsList(isCompleted = false) {
-  const unorderedList = document.getElementById("taskItems");
+  const unorderedList = document.getElementById("task-items");
   const arrayObject = allTaskItems[allTaskItems.length - 1];
   const arrayTask = arrayObject.text;
   const newLineItem = document.createElement("li");
-  newLineItem.setAttribute("id", "lineItems");
+  newLineItem.setAttribute("id", "line-items");
 
   const newDivItem = document.createElement("div");
-  newDivItem.setAttribute("id", "taskLine");
+  newDivItem.setAttribute("id", "task-line");
 
   const newInputItem = document.createElement("input");
-  newInputItem.setAttribute("id", "taskComplete");
+  newInputItem.setAttribute("id", "task-complete");
   newInputItem.setAttribute("type", "checkbox");
   if (isCompleted === true) {
     newInputItem.setAttribute("checked", isCompleted);
   }
 
   const newTaskTextItem = document.createElement("p");
-  newTaskTextItem.setAttribute("id", "taskText");
+  newTaskTextItem.setAttribute("id", "task-text");
   if (isCompleted === true) {
     newTaskTextItem.setAttribute("class", "strikethrough");
   }
 
   const newImageItem = document.createElement("img");
-  newImageItem.setAttribute("id", "taskDelete");
+  newImageItem.setAttribute("id", "task-delete");
   newImageItem.setAttribute("src", "images/redx.png");
   newImageItem.setAttribute("alt", "red brushstroke x");
 
@@ -46,9 +46,9 @@ function displayItemsList(isCompleted = false) {
   unorderedList.appendChild(newLineItem);
 }
 
- function retrieveFromStorage() {
+function retrieveFromStorage() {
   allItemsInStorage = JSON.parse(localStorage.getItem("allTasks")) || [];
-   
+  
   for (i = 0; i < allItemsInStorage.length; i++) {
     allTaskItems.push(allItemsInStorage[i]);
     displayItemsList(allItemsInStorage[i].isChecked);
@@ -57,7 +57,7 @@ function displayItemsList(isCompleted = false) {
 
 function removeFromStorage(target) {
   const taskToDeleteFromStorage = target.previousSibling.textContent;
-  allItemsInStorage = JSON.parse(window.localStorage.getItem("allTasks"));
+  allItemsInStorage = JSON.parse(localStorage.getItem("allTasks"));
   
   for (i = 0; i < allItemsInStorage.length; i++) {
     if (allItemsInStorage[i].text === taskToDeleteFromStorage) {
@@ -67,15 +67,14 @@ function removeFromStorage(target) {
   }
 }
 
-window.addEventListener("keypress", (e) => e.code === "Enter" ? addItem() : false
-);
+window.addEventListener("keypress", (e) => e.code === "Enter" ? addItem() : false);
 
-const enterButton = document.getElementById("enterButton");
+const enterButton = document.getElementById("enter-button");
 enterButton.addEventListener("click", addItem);
 
-const checkbox = document.getElementById("taskItems");
+const checkbox = document.getElementById("task-items");
 checkbox.addEventListener("click", function (e) {
-  if (e.target.id === "taskComplete") {
+  if (e.target.id === "task-complete") {
     if (e.target.checked) {
       const strikethrough = e.target.nextSibling;
       strikethrough.setAttribute("class", "strikethrough");
@@ -105,7 +104,7 @@ checkbox.addEventListener("click", function (e) {
   };
 });
 
-const deleteButton = document.getElementById("taskItems");
+const deleteButton = document.getElementById("task-items");
 deleteButton.addEventListener("click", function (e) {
   if (e.target.id === "taskDelete") {
     removeFromStorage(e.target);
