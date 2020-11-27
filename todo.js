@@ -106,7 +106,7 @@ checkbox.addEventListener("click", function (e) {
 
 const deleteButton = document.getElementById("task-items");
 deleteButton.addEventListener("click", function (e) {
-  if (e.target.id === "taskDelete") {
+  if (e.target.id === "task-delete") {
     removeFromStorage(e.target);
     const taskToRemove = e.target.parentNode.parentNode;
     taskToRemove.remove();
